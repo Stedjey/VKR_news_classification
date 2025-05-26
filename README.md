@@ -1,3 +1,4 @@
 # VKR_news_classification
 
-![image](https://github.com/user-attachments/assets/d7e11a1a-2129-4a2b-9a9b-47c2ef108b01)
+![image](https://github.com/user-attachments/assets/3a83debe-c55a-4109-b5bf-ef8dcf8ed97c)
+
