@@ -1,4 +1,3 @@
-# rubert + rubert keywords + настроение + эмоция (last)
 import telebot
 from transformers import AutoTokenizer, AutoModelForSequenceClassification
 import torch
@@ -7,6 +6,30 @@ from scipy.special import softmax
 import pickle
 import sqlite3
 from transformers import pipeline
+
+# --- Создание БД при первом запуске ---
+def create_db():
+    conn = sqlite3.connect("bot_messages.db")
+    cursor = conn.cursor()
+    cursor.execute('''
+        CREATE TABLE IF NOT EXISTS messages (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            user_id INTEGER,
+            username TEXT,
+            text TEXT,
+            predicted_category TEXT,
+            confidence REAL,
+            keywords TEXT,
+            emotion TEXT,
+            sentiment TEXT,
+            timestamp DATETIME DEFAULT CURRENT_TIMESTAMP
+        )
+    ''')
+    conn.commit()
+    conn.close()
+
+# Вызов функции создания БД
+create_db()
 
 # --- Загрузка модели и энкодера ---
 model = AutoModelForSequenceClassification.from_pretrained("./rubert_final_model")
@@ -64,7 +87,7 @@ def get_emotion(text):
     return translated_label, result[0]['score']
 
 # --- Telegram bot ---
-API_TOKEN = 'token'  # Замените на ваш токен от @BotFather
+API_TOKEN = '7692104667:AAHxWazqOrWLPkgN188jzt0eJ_tyDImgAIk'  # Замените на ваш токен от @BotFather
 bot = telebot.TeleBot(API_TOKEN)
 
 # Обработка команды /start
